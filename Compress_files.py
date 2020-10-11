@@ -21,7 +21,7 @@ today_date = datetime.today().date().strftime("%Y%m%d")
 while not compression_complete:
     user_input = input('Enter directory or file path (drag and drop): ')
     user_input = user_input.strip('"')
-
+    
     input_is_file = os.path.isfile(user_input)
     input_is_dir = os.path.isdir(user_input)
 
@@ -38,8 +38,8 @@ while not compression_complete:
         compression_complete = True if go_on == 'n' else False
     
     elif input_is_dir:
-        output_name = user_input.split(r'\\')[-1]
-        output = Path(user_input) / f"{output_name}_{today_date}.zip"
+        #output_name = os.path.split(user_input) #split(r'\\')
+        output = Path(user_input) / f"{today_date}.zip"
         files = []
         for file in os.listdir(user_input):
             if not fn.fnmatch(file, '*zip'):
@@ -78,7 +78,7 @@ while not compression_complete:
                 print('Please provide a correct input for indeces.')
 
         print(chosen_files)
-        print('Compressing...')
+        print(f'Compressing to {output}...')
         zip_ref = zipfile.ZipFile(output, 'w')
         for index in tqdm(chosen_files):
             file_path = os.path.join(user_input, files_index[index][0])
